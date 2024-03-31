@@ -30,6 +30,12 @@ public class Reservation {
         this.debut = debut;
         this.fin = fin;
     }
+    public Reservation(long client_id, long vehicle_id, LocalDate debut, LocalDate fin) {
+        this.client_id = client_id;
+        this.vehicle_id = vehicle_id;
+        this.debut = debut;
+        this.fin = fin;
+    }
 
     public long getId() {
         return id;
