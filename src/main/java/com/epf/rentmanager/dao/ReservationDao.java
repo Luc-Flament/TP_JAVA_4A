@@ -80,6 +80,7 @@ public class ReservationDao {
 		try {
 			Connection connexion = ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connexion.prepareStatement(FIND_RESERVATIONS_BY_CLIENT_QUERY);
+			preparedStatement.setLong(1, clientId);
 			ResultSet resultset=preparedStatement.executeQuery();
 			ArrayList<Reservation> ListeDesReservations = new ArrayList<Reservation>();
 			while (resultset.next()){
@@ -99,6 +100,7 @@ public class ReservationDao {
 		try {
 			Connection connexion = ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connexion.prepareStatement(FIND_RESERVATIONS_BY_VEHICLE_QUERY);
+			preparedStatement.setLong(1, vehicleId);
 			ResultSet resultset=preparedStatement.executeQuery();
 			ArrayList<Reservation> ListeDesReservations = new ArrayList<Reservation>();
 			while (resultset.next()){

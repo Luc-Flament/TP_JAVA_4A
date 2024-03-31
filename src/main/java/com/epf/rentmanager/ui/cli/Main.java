@@ -32,27 +32,33 @@ public class Main {
                     createClient();
                     break;
                 case "2":
-                    listClients();
-                    break;
-                case "3":
                     createVehicle();
                     break;
+                case "3":
+                    createReservation();
+                    break;
                 case "4":
-                    listVehicles();
+                    listClients();
                     break;
                 case "5":
-                    createReservation();
+                    listVehicles();
                     break;
                 case "6":
                     listReservations();
                     break;
                 case "7":
-                    deleteClient();
+                    listReservationsByClient();
                     break;
                 case "8":
+                    listReservationsByVehicle();
+                    break;
+                    case "9":
+                    deleteClient();
+                    break;
+                case "10":
                     deleteVehicle();
                     break;
-                case "9":
+                case "11":
                     deleteReservation();
                     break;
                 case "0":
@@ -69,14 +75,16 @@ public class Main {
         IOUtils.print(
                 "Menu :\n" +
                         "1. Créer un Client\n" +
-                        "2. Lister tous les Clients\n" +
-                        "3. Créer un Véhicule\n" +
-                        "4. Lister tous les Véhicules\n" +
-                        "5. Créer une Réservation\n" +
+                        "2. Créer un Véhicule\n"+
+                        "3. Créer une Réservation\n" +
+                        "4. Lister tous les Clients\n" +
+                        "5. Lister tous les Véhicules\n" +
                         "6. Lister toutes les Réservations\n" +
-                        "7. Supprimer un Client\n" +
-                        "8. Supprimer un Véhicule\n" +
-                        "9. Supprimer une Réservation\n" +
+                        "7. Lister toutes les Réservations à un client donnée\n" +
+                        "8. Lister toutes les Réservations à un véhicule donnée\n" +
+                        "9. Supprimer un Client\n" +
+                        "10.Supprimer un Véhicule\n" +
+                        "11.Supprimer une Réservation\n" +
                         "0. Quitter"
         );
 
@@ -116,6 +124,16 @@ public class Main {
 
     private void listReservations() throws ServiceException, DaoException {
         reservationService.findAll().forEach(reservation -> IOUtils.print(reservation.toString()));
+    }
+
+    private void listReservationsByClient() throws ServiceException, DaoException {
+        long idClient = IOUtils.readInt("ID du client : ");
+        reservationService.findByClientId(idClient).forEach(reservation -> IOUtils.print(reservation.toString()));
+    }
+
+    private void listReservationsByVehicle() throws ServiceException, DaoException {
+        long idVehicle = IOUtils.readInt("ID du véhicule : ");
+        reservationService.findByVehicleId(idVehicle).forEach(reservation -> IOUtils.print(reservation.toString()));
     }
 
     private void deleteClient() throws ServiceException, DaoException {
