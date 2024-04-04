@@ -21,12 +21,12 @@ public class ClientCreateServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
     }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String nom = request.getParameter("lastname");
         String prenom = request.getParameter("firstname");
         String Email = request.getParameter("Email");
-        LocalDate date_naissance = LocalDate.parse(request.getParameter("birthdate"));
-        Client client = new Client(nom, prenom, Email, date_naissance );
+        LocalDate clocktime= LocalDate.now();
+        Client client = new Client(nom, prenom, Email, clocktime );
         try {
             clientService.create(client);
             response.sendRedirect(request.getContextPath() + "/users");

@@ -90,6 +90,18 @@ public class VehicleDao {
 		}
 		
 	}
+
+	public long count() throws DaoException {
+		try {
+			Connection connexion = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connexion.prepareStatement("SELECT COUNT(*) FROM Vehicle;");
+			ResultSet resultset=preparedStatement.executeQuery();
+			resultset.next();
+			return resultset.getInt(1);
+		} catch (SQLException e) {
+			throw new RuntimeException("error counting vehicles\n"+e.getMessage());
+		}
+	}
 	
 
 }

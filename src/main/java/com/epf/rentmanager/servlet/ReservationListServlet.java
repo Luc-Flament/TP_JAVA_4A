@@ -2,8 +2,9 @@ package com.epf.rentmanager.servlet;
 
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.model.Reservation;
+import com.epf.rentmanager.service.ReservationService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,17 +15,18 @@ import java.util.List;
 
 import static com.epf.rentmanager.utils.IOUtils.print;
 
-@WebServlet("/users")
-public class ClientListServlet extends HttpServlet {
+@WebServlet("/rents")
+public class ReservationListServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ClientService clientService =ClientService.getInstance();
+    private ReservationService reservationService =ReservationService.getInstance();
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Client> allClients = clientService.findAll();
-            request.setAttribute("users", allClients);
+            List<Reservation> allReservations = reservationService.findAll();
+            print(allReservations.toString());
+            request.setAttribute("reservations", allReservations);
         } catch (ServiceException | DaoException e) {
             throw new RuntimeException(e);
         }
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/list.jsp").forward(request, response);
     }
 }
