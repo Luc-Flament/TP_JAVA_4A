@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epf.rentmanager.utils.IOUtils.print;
+
 @WebServlet("/cars/create")
 public class VehicleCreateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -22,7 +24,7 @@ public class VehicleCreateServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String constructeur = request.getParameter("constructeur");
+        String constructeur = request.getParameter("manufacturer");
         String modele = request.getParameter("modele");
         int nb_places = Integer.parseInt(request.getParameter("seats"));
         Vehicle vehicle = new Vehicle(constructeur, modele, nb_places);
