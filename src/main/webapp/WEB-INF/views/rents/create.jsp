@@ -25,7 +25,7 @@
                     <!-- Horizontal Form -->
                     <div class="box">
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" action="/rents/create">
+                        <form class="form-horizontal" method="post">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="car" class="col-sm-2 control-label">Voiture</label>
@@ -34,7 +34,7 @@
                                         <select class="form-control" id="car" name="car">
                                             <option value="">Choisir une voiture</option>
                                         <c:forEach items="${vehicles}" var="vehicle">
-                                            <option value="${vehicle.id}">${vehicle.brand} ${vehicle.model}</option>
+                                            <option value="${vehicle.id}">${vehicle.constructeur} ${vehicle.modele}</option>
                                         </c:forEach>
                                         </select>
                                     </div>
@@ -44,8 +44,8 @@
 
                                     <div class="col-sm-10">
                                         <select class="form-control" id="client" name="client">
-                                            <c:forEach items="${vehicles}" var="vehicle">
-                                            <option value="${vehicle.id}">${vehicle.brand} ${vehicle.model}</option>
+                                            <c:forEach items="${clients}" var="client">
+                                            <option value="${client.id}">${client.prenom} ${client.nom}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
