@@ -7,28 +7,18 @@ import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.model.Vehicle;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ReservationService {
 
     private ReservationDao reservationDao;
     public static ReservationService instance;
-
-    private ReservationService() {
-        this.reservationDao = ReservationDao.getInstance();
-    }
-
-    public static ReservationService getInstance() {
-        if (instance == null) {
-            instance = new ReservationService();
-        }
-
-        return instance;
-    }
-
-
+    private ReservationService(ReservationDao reservationDao){this.reservationDao = reservationDao;}
     public long create(Reservation reservation) throws ServiceException, DaoException {
+        /*
         if (reservation.getVehicle_id() <= 0) {
             throw new ServiceException("error : VehicleID is empty");
         }
@@ -36,7 +26,7 @@ public class ReservationService {
             throw new ServiceException("error : ClientID is empty");
         }
         //check if the client exists
-        ClientDao clientDao = ClientDao.getInstance();
+        ClientDao clientDao
         Client client = clientDao.findById(reservation.getClient_id());
         if (client == null) {
             throw new ServiceException("error : Client does not exist");
@@ -47,6 +37,7 @@ public class ReservationService {
         if (vehicle == null) {
             throw new ServiceException("error : Vehicle does not exist");
         }
+        */
         return reservationDao.create(reservation);
     }
     public Reservation findById(long id) throws ServiceException, DaoException {

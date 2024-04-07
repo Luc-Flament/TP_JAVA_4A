@@ -1,5 +1,6 @@
 package com.epf.rentmanager.servlet;
 
+import com.epf.rentmanager.dao.ClientDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
@@ -8,6 +9,7 @@ import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -26,9 +28,12 @@ import static com.epf.rentmanager.utils.IOUtils.print;
 @WebServlet("/rents/create")
 public class ReservationCreateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ReservationService reservationService =ReservationService.getInstance();
-    private ClientService clientService = ClientService.getInstance();
-    private VehicleService vehicleService = VehicleService.getInstance();
+    @Autowired
+    private ReservationService reservationService;
+    @Autowired
+    private VehicleService vehicleService;
+    @Autowired
+    private ClientService clientService;
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Vehicle> allVehicles = vehicleService.findAll();

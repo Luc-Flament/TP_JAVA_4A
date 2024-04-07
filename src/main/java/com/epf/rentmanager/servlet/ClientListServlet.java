@@ -4,6 +4,8 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +19,8 @@ import static com.epf.rentmanager.utils.IOUtils.print;
 @WebServlet("/users")
 public class ClientListServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ClientService clientService =ClientService.getInstance();
+    @Autowired
+    private ClientService clientService;
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Client> allClients = clientService.findAll();

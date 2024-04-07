@@ -1,5 +1,6 @@
 package com.epf.rentmanager.ui.cli;
 
+import com.epf.rentmanager.configuration.AppConfiguration;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
@@ -9,13 +10,18 @@ import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.utils.IOUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
 
 public class Main {
-    ClientService clientService = ClientService.getInstance();
-    VehicleService vehicleService = VehicleService.getInstance();
-    ReservationService reservationService = ReservationService.getInstance();
+    //ClientService clientService = ClientService.getInstance();
+    ApplicationContext context = new
+            AnnotationConfigApplicationContext(AppConfiguration.class);
+    ClientService clientService = context.getBean(ClientService.class);
+    VehicleService vehicleService = context.getBean(VehicleService.class);
+    ReservationService reservationService = context.getBean(ReservationService.class);
 
     public static void main(String[] args) throws ServiceException, DaoException {
         Main cli = new Main();
