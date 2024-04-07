@@ -10,36 +10,50 @@ import com.epf.rentmanager.model.Vehicle;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 @Service
 public class ReservationService {
 
     private ReservationDao reservationDao;
-    public static ReservationService instance;
+
     private ReservationService(ReservationDao reservationDao){this.reservationDao = reservationDao;}
     public long create(Reservation reservation) throws ServiceException, DaoException {
-        /*
-        if (reservation.getVehicle_id() <= 0) {
-            throw new ServiceException("error : VehicleID is empty");
-        }
-        if (reservation.getClient_id() <= 0) {
-            throw new ServiceException("error : ClientID is empty");
-        }
-        //check if the client exists
-        ClientDao clientDao
-        Client client = clientDao.findById(reservation.getClient_id());
-        if (client == null) {
-            throw new ServiceException("error : Client does not exist");
-        }
-        //check if the vehicle exists
-        VehicleService vehicleService = VehicleService.getInstance();
-        Vehicle vehicle = vehicleService.findById(reservation.getVehicle_id());
-        if (vehicle == null) {
-            throw new ServiceException("error : Vehicle does not exist");
-        }
-        */
+    if(!VehicleIsAvailable(reservation)){ throw new ServiceException("error : the vehicle is not available");};
+    if(!TempsMaxReservationParUtilisateur(reservation)){ throw new ServiceException("error : the reservation is too long");};
         return reservationDao.create(reservation);
     }
+
+    private boolean VehicleIsAvailable(Reservation reservation) {
+        try {
+            List<Reservation> list = reservationDao.findResaByVehicleId(reservation.getVehicle_id());
+            for (Reservation r : list) {
+                if (r.getDebut().isBefore(reservation.getDebut()) && r.getFin().isAfter(reservation.getDebut())) {
+                    return false;
+                }
+                if (r.getDebut().isBefore(reservation.getFin()) && r.getFin().isAfter(reservation.getFin())) {
+                    return false;
+                }
+                if (r.getDebut().isAfter(reservation.getDebut()) && r.getFin().isBefore(reservation.getFin())) {
+                    return false;
+                }
+            }
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
+
+    private boolean TempsMaxReservationParUtilisateur(Reservation reservation) {
+        if (reservation.getDebut().plusDays(7).isBefore(reservation.getFin())) {
+            return false;
+        }
+        return true;
+    }
+
+
+
     public Reservation findById(long id) throws ServiceException, DaoException {
         return reservationDao.findById(id);
     }

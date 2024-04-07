@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static com.epf.rentmanager.utils.IOUtils.print;
 
 @WebServlet("/rents")
 public class ReservationListServlet extends HttpServlet {
@@ -32,7 +31,6 @@ public class ReservationListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Reservation> allReservations = reservationService.findAll();
-            print(allReservations.toString());
             request.setAttribute("reservations", allReservations);
         } catch (ServiceException | DaoException e) {
             throw new RuntimeException(e);

@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static com.epf.rentmanager.utils.IOUtils.print;
 
 @WebServlet("/users")
 public class ClientListServlet extends HttpServlet {

@@ -13,17 +13,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import static com.epf.rentmanager.utils.IOUtils.print;
 
-
-@WebServlet("/users/create")
-public class ClientCreateServlet extends HttpServlet{
+@WebServlet("/users/details")
+public class ClientDetail extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @Autowired
     private ClientService clientService;
-
     @Override
     public void init() throws ServletException {
         super.init();
@@ -31,24 +29,12 @@ public class ClientCreateServlet extends HttpServlet{
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
-    }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String nom = request.getParameter("last_name");
-        String prenom = request.getParameter("first_name");
-        String Email = request.getParameter("email");
-        String dateNaissance = request.getParameter("naissance");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDate= LocalDate.parse(dateNaissance, formatter);
-        Client client = new Client(nom, prenom, Email, localDate );
         try {
-            clientService.create(client);
-            response.sendRedirect(request.getContextPath() + "/users");
+            Client client = clientService.findById(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("users", client);
         } catch (ServiceException | DaoException e) {
-            throw new RuntimeException("error" +e);
+            throw new RuntimeException(e);
         }
-
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/details.jsp").forward(request, response);
     }
-
 }

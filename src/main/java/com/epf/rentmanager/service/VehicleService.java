@@ -18,9 +18,10 @@ public class VehicleService {
 	
 	private VehicleService(VehicleDao vehicleDao) {this.vehicleDao = vehicleDao;}
 	public long create(Vehicle vehicle) throws ServiceException, DaoException {
-		//if (vehicle.getConstructeur().isEmpty()){throw new ServiceException("error : the brand that makes the car must be referenced");}
-		//if (vehicle.getModele().isEmpty()){throw new ServiceException("error : the type of car must be referenced");}
-		//if (vehicle.getNb_places()<=0){throw new ServiceException("A car has at least 1 seat please add how many seats are in the car");}
+		if (vehicle.getConstructeur().isEmpty()){throw new ServiceException("error : the brand that makes the car must be referenced");}
+		if (vehicle.getModele().isEmpty()){throw new ServiceException("error : the type of car must be referenced");}
+		if (vehicle.getNb_places()<=1){throw new ServiceException("A car has at least 2 seat please add how many seats are in the car");}
+		if (vehicle.getNb_places()>=10){throw new ServiceException("A car has at most 9 seats please add how many seats are in the car");}
 		return vehicleDao.create(vehicle);
 	}
 
